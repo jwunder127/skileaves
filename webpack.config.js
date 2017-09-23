@@ -1,6 +1,7 @@
 'use strict';
 
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const devMode = process.env.NODE_ENV === 'development';
 
 /**
@@ -26,14 +27,20 @@ const config = {
     extensions: ['.js', '.jsx', '.json', '*']
   },
   module: {
-    rules: [{
+    loaders: [
+      {
       test: /jsx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: 'babel-loader' // config in .babelrc
-    }]
+    },
+    {
+      test: /\.less$/,
+      loader: 'style-loader!css-loader?module=true&localIdentName=[hash:base64:5]!less-loader'
+  }]
   },
   plugins: devMode
-    ? [new LiveReloadPlugin({appendScriptTag: true})]
+    ? [new LiveReloadPlugin({appendScriptTag: true})
+    ]
     : []
 };
 
