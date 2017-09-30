@@ -10,7 +10,9 @@ router.get('/', (req, res, next) => {
 
     mountains.find().toArray()
         .then(data => {
-            res.send(data);
+            res.send(data.filter(mtn => {
+                return mtn.latitude !== null && mtn.longitude !== null;
+            }));
         })
         .catch(err => console.log(err));
 });

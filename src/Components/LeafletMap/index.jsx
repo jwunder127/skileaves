@@ -3,19 +3,33 @@ import { Map, TileLayer, Circle, Popup, ScaleControl } from 'react-leaflet';
 
 const darkMatter = 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
 
-const LeafletMap = () => {
+class LeafletMap extends React.Component {
+  constructor(props){
+  super(props);
+  this.state = {};
+}
+
+  render(){
     return (
-        <div>
-            <Map center={[39.9528, -75.1638]} zoom={12}>
-                <TileLayer
-                    layer="CartoDB_DarkMatter"
-                    url={darkMatter}
-                />
-                <ScaleControl />
-            </Map>
-        </div>
+      <div>
+        <Map center={[40.7049786, -74.0091496]} zoom={12}>
+          <TileLayer
+           layer="CartoDB_DarkMatter"
+           url={darkMatter}
+         />
+          <ScaleControl />
+            {this.props.mountains && this.props.mountains.map(mtn => {
+              return (
+                <div key={mtn.id}>
+                  <Circle center={[mtn.latitude, mtn.longitude]} radius={1000} />
+                </div>
+              );
+            })}
+        </Map>
+      </div>
     );
-};
+  }
+}
 
 export default LeafletMap;
 

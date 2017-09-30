@@ -8,27 +8,27 @@ class AppContainer extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      mountains: []
-    };
+    this.state = {};
   }
 
-componentDidMount(){
-  axios.get('/mountains')
-    .then(mountains => {
-      console.log(mountains);
+componentWillMount(){
+  axios.get('/api/mountains')
+    .then(res => {
+      console.log(res);
       this.setState({
-        mountains
+        mountains: res.data
       });
     });
 }
 
 render() {
-    console.log('state is:', this.state, Date.now());
+  console.log('mountains:', this.state.mountains);
     return (
      <div className={styles.mainContainer}>
         <div className={styles.mapDiv}>
-          <LeafletMap />
+          <LeafletMap
+            mountains={this.state.mountains}
+          />
         </div>
         <div className={styles.sidebarDiv}>
           <h1> Hello world! </h1>

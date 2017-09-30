@@ -39904,35 +39904,35 @@ var AppContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).call(this, props));
 
-    _this.state = {
-      mountains: []
-    };
+    _this.state = {};
     return _this;
   }
 
   _createClass(AppContainer, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       var _this2 = this;
 
-      _axios2.default.get('/mountains').then(function (mountains) {
-        console.log(mountains);
+      _axios2.default.get('/api/mountains').then(function (res) {
+        console.log(res);
         _this2.setState({
-          mountains: mountains
+          mountains: res.data
         });
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      console.log('state is:', this.state, Date.now());
+      console.log('mountains:', this.state.mountains);
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.mainContainer },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.mapDiv },
-          _react2.default.createElement(_LeafletMap2.default, null)
+          _react2.default.createElement(_LeafletMap2.default, {
+            mountains: this.state.mountains
+          })
         ),
         _react2.default.createElement(
           'div',
@@ -40546,8 +40546,10 @@ module.exports = function (css) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(15);
 
@@ -40557,23 +40559,54 @@ var _reactLeaflet = __webpack_require__(283);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var darkMatter = 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png';
 
-var LeafletMap = function LeafletMap() {
-    return _react2.default.createElement(
+var LeafletMap = function (_React$Component) {
+  _inherits(LeafletMap, _React$Component);
+
+  function LeafletMap(props) {
+    _classCallCheck(this, LeafletMap);
+
+    var _this = _possibleConstructorReturn(this, (LeafletMap.__proto__ || Object.getPrototypeOf(LeafletMap)).call(this, props));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(LeafletMap, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-            _reactLeaflet.Map,
-            { center: [39.9528, -75.1638], zoom: 12 },
-            _react2.default.createElement(_reactLeaflet.TileLayer, {
-                layer: 'CartoDB_DarkMatter',
-                url: darkMatter
-            }),
-            _react2.default.createElement(_reactLeaflet.ScaleControl, null)
+          _reactLeaflet.Map,
+          { center: [40.7049786, -74.0091496], zoom: 12 },
+          _react2.default.createElement(_reactLeaflet.TileLayer, {
+            layer: 'CartoDB_DarkMatter',
+            url: darkMatter
+          }),
+          _react2.default.createElement(_reactLeaflet.ScaleControl, null),
+          this.props.mountains && this.props.mountains.map(function (mtn) {
+            return _react2.default.createElement(
+              'div',
+              { key: mtn.id },
+              _react2.default.createElement(_reactLeaflet.Circle, { center: [mtn.latitude, mtn.longitude], radius: 1000 })
+            );
+          })
         )
-    );
-};
+      );
+    }
+  }]);
+
+  return LeafletMap;
+}(_react2.default.Component);
 
 exports.default = LeafletMap;
 
