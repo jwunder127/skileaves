@@ -17,5 +17,17 @@ router.get('/', (req, res, next) => {
         .catch(err => console.log(err));
 });
 
+router.post('/updateForecast/:id', (req, res, next) => {
+    const mountains = db.get().collection('allMountains');
+    mountains.findOne({
+        id: +req.params.id
+    })
+    .then(data => {
+        console.log('data:', data);
+        res.send(data);
+    })
+    .catch(err => console.log('err:', err));
+})
+
 
 module.exports = router;
