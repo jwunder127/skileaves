@@ -9,10 +9,11 @@ class LeafletMap extends React.Component {
   this.state = {};
 }
 
+
   render(){
     return (
       <div>
-        <Map center={[40.7049786, -74.0091496]} zoom={12}>
+        <Map center={this.props.userPosition} zoom={this.props.userZoom}>
           <TileLayer
            layer="CartoDB_DarkMatter"
            url={darkMatter}
