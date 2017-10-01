@@ -2,8 +2,8 @@
 import React from 'react';
 import axios from 'axios';
 import styles from './styles.less';
-import LeafletMap from '../LeafletMap';
-import Sidebar from '../Sidebar';
+import LeafletMap from '../../components/LeafletMap';
+import Sidebar from '../../components/Sidebar';
 
 import {Card} from 'antd';
 
@@ -54,9 +54,3 @@ render() {
 }
 
 export default AppContainer;
-
-/*
-
-
-
-*/
