@@ -3,6 +3,10 @@
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const devMode = process.env.NODE_ENV === 'development';
+const fs = require('fs');
+const path = require('path');
+const lessToJs = require('less-vars-to-js');
+const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './public/ant-default-vars.less'), 'utf8'));
 
 /**
  * Fast source maps rebuild quickly during development, but only give a link
@@ -35,7 +39,13 @@ const config = {
     },
     {
       test: /\.less$/,
-      loader: 'style-loader!css-loader?module=true&localIdentName=[hash:base64:5]!less-loader'
+      loader: "style-loader!css-loader!less-loader",
+      include:  /node_modules\/antd\/lib/
+    },
+    {
+      test: /\.less$/,
+      loader: 'style-loader!css-loader?module=true&localIdentName=[hash:base64:5]!less-loader',
+      exclude:  /node_modules\/antd\/lib/
   }]
   },
   plugins: devMode
