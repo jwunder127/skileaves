@@ -22,7 +22,11 @@ class LeafletMap extends React.Component {
             {this.props.mountains && this.props.mountains.map(mtn => {
               return (
                 <div key={mtn.id}>
-                  <Circle center={[mtn.latitude, mtn.longitude]} radius={1000} />
+                  <Circle
+                    center={[mtn.latitude, mtn.longitude]}
+                    radius={1000}
+                    color={this.props.getColor(mtn.snowScoreAdj)}
+                  />
                 </div>
               );
             })}

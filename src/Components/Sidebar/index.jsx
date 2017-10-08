@@ -2,8 +2,6 @@ import React from 'react';
 import { Row, Card, Input, Icon } from 'antd';
 import styles from './styles.less';
 
-const CardGrid = Card.Grid;
-
 class Sidebar extends React.Component {
   constructor(props){
     super(props);
@@ -11,7 +9,6 @@ class Sidebar extends React.Component {
       mountains: this.props.mountains,
       mtnSearch: '',
     };
-    this.handleSearchInput = this.handleSearchInput.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -22,12 +19,13 @@ class Sidebar extends React.Component {
     }
   }
 
-  handleSearchInput(evt){
+  handleSearchInput = (evt) => {
     console.log('value:', evt.target.value);
     this.setState({
       mtnSearch: evt.target.value
     });
   }
+
   searchBarFilter(value){
     return this.state.mountains.filter(mtn => {
       return mtn.name.toLowerCase().match(value.toLowerCase());
@@ -41,7 +39,7 @@ class Sidebar extends React.Component {
     return (
       <div>
         <Input
-          prefix={<Icon type='caret-up' />}
+          prefix={<Icon type="caret-up" />}
           onChange={this.handleSearchInput}
           placeholder="Search Mountains"
         />
@@ -52,7 +50,12 @@ class Sidebar extends React.Component {
               className={styles.mtnCard}
               onClick={() => console.log(mtn.name)}
             >
-              {mtn.name}
+              <p>{mtn.name}</p>
+              <p>Snowscore:
+                <span style={{color: this.props.getColor(mtn.snowScoreAdj)}}>
+                  {mtn.snowScore}
+                </span>
+              </p>
             </Card>
           </Row>
           );

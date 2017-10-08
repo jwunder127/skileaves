@@ -8,16 +8,47 @@ const chalk = require('chalk');
 const {env} = app;
 const darkSkyApiKey = env["DARK_SKY_API_KEY"];
 
+const calcSnowScore = (forecast) => {
+    return (forecast.daily.data.reduce((acc, day) => {
+      const precip = day.precipType === 'snow' && day.precipAccumulation ? day.precipAccumulation : 0;
+      const precipChance = day.precipProbability;
+      return acc + precip * precipChance;
+    }, 0)).toFixed(2);
+  };
+
 //get all mountains with non null lat/long
 router.get('/', (req, res, next) => {
   const mountains = db.get().collection('allMountains');
 
   mountains.find().toArray()
     .then(data => {
-      res.send(data.filter(mtn => {
-        return mtn.latitude !== null && mtn.longitude !== null;
-        }));
+        const newArr = [];
+        data.forEach((mtn) => {
+            if (mtn.latitude && mtn.longitude && mtn.operating_status === 'Operating'){
+                mtn.snowScore = calcSnowScore(mtn.forecast);
+                mtn.snowScoreAdj = mtn.snowScore / 50 * 100;
+                delete mtn.forecast;
+                newArr.push(mtn);
+            }
+        });
+        console.log(typeof newArr[0].snowScore);
+        res.send(newArr.sort((a, b) => b.snowScore - a.snowScore));
       })
+    .catch(err => console.log(err));
+});
+
+router.get('/noForecasts', (req, res, next) => {
+  const mountains = db.get().collection('allMountains');
+
+  mountains.find().toArray()
+    .then(data => {
+      const newArr = [];
+      data.forEach(m => {
+        delete m.forecast;
+        newArr.push(m);
+      });
+      res.send(newArr);
+    })
     .catch(err => console.log(err));
 });
 

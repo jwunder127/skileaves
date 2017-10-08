@@ -8,7 +8,7 @@ const onUpdateButtonClick = function(){
         const mountains = res.data;
         const locationArr = mountains.map(mtn => [mtn.latitude, mtn.longitude, mtn.operating_status, mtn.updated_at]);
         const locationSample = [locationArr[0]];
-        console.log('refreshMountains', locationArr);
+        console.log('refreshMountains request body', locationArr);
         axios.post('/api/mountains/updateAllForecasts', {mtnArray: locationArr})
         .then(response => console.log('update response:', response))
         .catch(err => console.log('update error:', err));
@@ -18,7 +18,7 @@ const onUpdateButtonClick = function(){
 
 const onRefreshButtonClick = function(){
   axios.get('/api/mountains')
-    .then(res => console.log('getMountains', res.data))
+    .then(res => console.log('getMountains response data', res.data))
     .catch(err => console.log('err:', err));
 }
 
