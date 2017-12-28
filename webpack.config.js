@@ -2,7 +2,7 @@
 
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const devMode = process.env.NODE_ENV === 'development';
+const devMode = process.env.NODE_ENV === 'development' || env['NODE_ENV'] === 'development';
 const fs = require('fs');
 const path = require('path');
 const lessToJs = require('less-vars-to-js');
