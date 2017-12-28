@@ -24,7 +24,7 @@ class Sidebar extends React.Component {
     this.setState({
       mtnSearch: evt.target.value
     });
-  }
+  };
 
   searchBarFilter(value){
     return this.state.mountains.filter(mtn => {
@@ -43,6 +43,7 @@ class Sidebar extends React.Component {
           onChange={this.handleSearchInput}
           placeholder="Search Mountains"
         />
+        <hr />
         {visibleMtns && visibleMtns.map(mtn => {
           return (
           <Row key={mtn.id}>
@@ -53,10 +54,11 @@ class Sidebar extends React.Component {
               <p>{mtn.name}</p>
               <p>Snowscore:
                 <span style={{color: this.props.getColor(mtn.snowScoreAdj)}}>
-                  {mtn.snowScore}
+                  {mtn.snowScoreAdj}
                 </span>
               </p>
             </Card>
+            <hr />
           </Row>
           );
         })}
