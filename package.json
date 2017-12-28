@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "validate": "check-node-version --node '>= 6.7.0'",
-    "setup": "./bin/setup",
+    "validate": "check-node-version --node \">= 6.7.0\"",
+    "setup": "node bin/mkapplink",
     "prep": "npm run validate && npm run setup",
     "postinstall": "npm run prep",
     "build": "webpack",
