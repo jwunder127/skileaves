@@ -1,7 +1,7 @@
 import React from 'react';
 import { Map, TileLayer, Circle, Popup, ScaleControl } from 'react-leaflet';
 
-const darkMatter = 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+const darkMatter = 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png';
 
 class LeafletMap extends React.Component {
   constructor(props){

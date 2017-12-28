@@ -31,7 +31,6 @@ router.get('/', (req, res, next) => {
                 newArr.push(mtn);
             }
         });
-        console.log(typeof newArr[0].snowScore);
         res.send(newArr.sort((a, b) => b.snowScore - a.snowScore));
       })
     .catch(err => console.log(err));
